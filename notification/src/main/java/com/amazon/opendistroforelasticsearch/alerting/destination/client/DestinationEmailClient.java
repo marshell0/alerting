@@ -31,6 +31,7 @@ import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
+import java.util.regex.*;
 
 /**
  * This class handles the connections to the given Destination.
@@ -80,7 +81,16 @@ public class DestinationEmailClient {
                 mailmsg.setFrom(new InternetAddress(emailMessage.getFrom()));
                 mailmsg.setRecipients(Message.RecipientType.TO, getRecipientsAsAddresses(emailMessage.getRecipients()));
                 mailmsg.setSubject(emailMessage.getSubject());
-                mailmsg.setText(emailMessage.getMessageContent());
+                // mailmsg.setText(emailMessage.getMessageContent());
+                // Change to support HTML email, Ning Marshall
+                String msgContent = emailMessage.getMessageContent();
+                if (isHTMLStr(msgContent)) {
+                	// HTML text
+                	mailmsg.setContent(msgContent, "text/html; charset=utf-8");
+                } else {
+                	// Pure text
+                	mailmsg.setText(msgContent);
+                }
 
                 SendMessage(mailmsg);
             } catch (MessagingException e) {
@@ -105,4 +115,25 @@ public class DestinationEmailClient {
 
         return addresses.toArray(new InternetAddress[0]);
     }
-}
+    
+    /**
+     * validate HTML tag using regex
+     * @param htmlStr HTML string to be validate
+     * 
+     * @return true if it is a html string, else false
+     */
+	private boolean isHTMLStr(String str) {
+		final String tagStart = "\\<\\w+((\\s+\\w+(\\s*\\=\\s*(?:\".*?\"|'.*?'|[^'\"\\>\\s]+))?)+\\s*|\\s*)\\>";
+		final String tagEnd = "\\</\\w+\\>";
+		final String tagSelfClosing = "\\<\\w+((\\s+\\w+(\\s*\\=\\s*(?:\".*?\"|'.*?'|[^'\"\\>\\s]+))?)+\\s*|\\s*)/\\>";
+		final String htmlEntity = "&[a-zA-Z][a-zA-Z0-9]+;";
+		final Pattern htmlPattern = Pattern.compile(
+		        "(" + tagStart + ".*" + tagEnd + ")|(" + tagSelfClosing + ")|(" + htmlEntity + ")", Pattern.DOTALL);
+
+		boolean ret = false;
+		if (str != null) {
+			ret = htmlPattern.matcher(str).find();
+		}
+		return ret;
+	}
+ }

@@ -61,12 +61,13 @@ class DestinationContextFactory(
 
     private fun addEmailCredentials(emailAccount: EmailAccount): EmailAccount {
         // Retrieve and populate the EmailAccount object with credentials if authentication is enabled
-        if (emailAccount.method != EmailAccount.MethodType.NONE) {
+        // Changed to read username/password anyway, for compatible with our exchange service configuration, Ning Marshall
+        // if (emailAccount.method != EmailAccount.MethodType.NONE) {
             val emailUsername: SecureString? = destinationSettings[emailAccount.name]?.emailUsername
             val emailPassword: SecureString? = destinationSettings[emailAccount.name]?.emailPassword
 
             return emailAccount.copy(username = emailUsername, password = emailPassword)
-        }
+        // }
 
         return emailAccount
     }

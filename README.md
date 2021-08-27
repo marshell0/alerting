@@ -4,6 +4,11 @@
 [![Chat](https://img.shields.io/badge/chat-on%20forums-blue)](https://discuss.opendistrocommunity.dev/c/alerting/)
 ![PRs welcome!](https://img.shields.io/badge/PRs-welcome!-success)
 
+# Changes made on orginal version
+1. alerting\notification\src\main\java\com\amazon\opendistroforelasticsearch\alerting\destination\client\DestinationEmailClient.java
+   Added HTML content support to the email body, but still support original pure text format, which format will be used depends on the email content, if there is HTML tag then HTML format, or pure text
+1. alerting\alerting\src\main\kotlin\com\amazon\opendistroforelasticsearch\alerting\model\destination\DestinationContextFactory.kt
+   Added support to username and password authentication for plan text protocol, original code only read usename/password if the protocol is TLS/HTTPS protocol 
 
 # Open Distro for Elasticsearch Alerting
 
