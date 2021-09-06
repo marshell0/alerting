@@ -6,11 +6,11 @@
 
 # Changes made on orginal version
 1. `alerting\notification\src\main\java\com\amazon\opendistroforelasticsearch\alerting\destination\client\DestinationEmailClient.java` 
-   Added HTML content support to the email body, but still support original pure text format, which format will be used depends on the email content, if there is HTML tag then HTML format, or pure text
+   Added HTML content support to the email body, original pure text format is still supported, and which format will be used depends on the email content, if there is HTML tag inside the email body then HTML format will be used, otherwisse pure text format
 1. `alerting\alerting\src\main\kotlin\com\amazon\opendistroforelasticsearch\alerting\model\destination\DestinationContextFactory.kt` 
-   Added support to username and password authentication for plan text protocol, original code only read usename/password if the protocol is TLS/HTTPS protocol 
+   Added support to username and password authentication for the plain text protocol, original code only read usename/password from the store if the protocol is TLS/HTTPS 
 1. `alerting\alerting\src\main\kotlin\com\amazon\opendistroforelasticsearch\alerting\script\TriggerExecutionContext.kt`
-   Changed the notification PeriodStart & PeriodEnd to local time zone
+   Changed the notification PeriodStart & PeriodEnd time zone from UTC to local
 
 # Open Distro for Elasticsearch Alerting
 
