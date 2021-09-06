@@ -1,0 +1,1 @@
+gradle build -x :alerting:integTest -x :alerting:jacocoTestReport -x :ktlint
